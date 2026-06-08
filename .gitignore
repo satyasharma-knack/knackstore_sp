@@ -6,7 +6,16 @@ Thumbs.db
 .idea/
 *.iml
 .vscode/
+
+# ---- Claude / AI assistant artifacts ----
 .claude/
+CLAUDE.md
+CLAUDE.local.md
+**/CLAUDE.md
+ONBOARDING.md
+MEMORY.md
+.mcp.json
+*.claude.md
 
 # ---- Java / Maven (backend) ----
 backend/target/
