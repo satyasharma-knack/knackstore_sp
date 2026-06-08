@@ -1,0 +1,48 @@
+<div class="container py-4" style="max-width:800px">
+  <a routerLink="/account/orders" class="btn btn-outline-secondary btn-sm mb-3">← Back to Orders</a>
+  <div *ngIf="loading" class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+  <div *ngIf="!loading && order">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-bold mb-0">Order {{ order.orderCode }}</h2>
+      <span class="badge bg-primary fs-6">{{ order.status }}</span>
+    </div>
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-header fw-bold">Delivery Address</div>
+          <div class="card-body" *ngIf="order.deliveryAddress">
+            <p class="mb-1">{{ order.deliveryAddress.firstName }} {{ order.deliveryAddress.lastName }}</p>
+            <p class="mb-1 text-muted">{{ order.deliveryAddress.line1 }}</p>
+            <p class="mb-0 text-muted">{{ order.deliveryAddress.city }}, {{ order.deliveryAddress.state }} {{ order.deliveryAddress.postcode }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-header fw-bold">Order Info</div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-1"><span class="text-muted">Payment</span><span>{{ order.paymentMethod }}</span></div>
+            <div class="d-flex justify-content-between mb-1"><span class="text-muted">Tracking</span><span class="fw-semibold">{{ order.trackingNumber }}</span></div>
+            <div class="d-flex justify-content-between mb-1"><span class="text-muted">Date</span><span>{{ order.placedDate | date:'dd MMM yyyy, HH:mm' }}</span></div>
+            <div class="d-flex justify-content-between fw-bold mt-2"><span>Total</span><span class="text-primary">{{ order.totalPrice | currency:'USD' }}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow-sm">
+      <div class="card-header fw-bold">Items Ordered</div>
+      <div class="card-body p-0">
+        <div *ngFor="let e of order.entries; let last = last" class="p-3 d-flex justify-content-between align-items-center" [class.border-bottom]="!last">
+          <div>
+            <div class="fw-semibold">{{ e.productName }}</div>
+            <small *ngIf="e.variantDescription" class="text-muted">{{ e.variantDescription }}</small>
+          </div>
+          <div class="text-end">
+            <div class="text-muted small">{{ e.quantity }} × {{ e.unitPrice | currency:'USD' }}</div>
+            <div class="fw-bold">{{ e.totalPrice | currency:'USD' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

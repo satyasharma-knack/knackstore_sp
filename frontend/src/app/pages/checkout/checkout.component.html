@@ -1,0 +1,94 @@
+<div class="container py-4" style="max-width:900px">
+  <h2 class="fw-bold mb-4">Checkout</h2>
+
+  <!-- Step Indicator -->
+  <div class="d-flex align-items-center mb-4">
+    <div class="step-badge" [class.active]="step >= 1">1. Delivery</div>
+    <div class="step-line"></div>
+    <div class="step-badge" [class.active]="step >= 2">2. Payment</div>
+    <div class="step-line"></div>
+    <div class="step-badge" [class.active]="step >= 3">3. Confirm</div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-8">
+      <!-- Step 1: Address -->
+      <div *ngIf="step === 1" class="card shadow-sm">
+        <div class="card-header fw-bold">Delivery Address</div>
+        <div class="card-body">
+          <form [formGroup]="addressForm">
+            <div class="row g-3">
+              <div class="col-6"><label class="form-label">First Name *</label><input class="form-control" formControlName="firstName"><div *ngIf="f('firstName')?.invalid && f('firstName')?.touched" class="text-danger small">Required</div></div>
+              <div class="col-6"><label class="form-label">Last Name *</label><input class="form-control" formControlName="lastName"><div *ngIf="f('lastName')?.invalid && f('lastName')?.touched" class="text-danger small">Required</div></div>
+              <div class="col-12"><label class="form-label">Address Line 1 *</label><input class="form-control" formControlName="line1"><div *ngIf="f('line1')?.invalid && f('line1')?.touched" class="text-danger small">Required</div></div>
+              <div class="col-12"><label class="form-label">Address Line 2</label><input class="form-control" formControlName="line2"></div>
+              <div class="col-6"><label class="form-label">City *</label><input class="form-control" formControlName="city"></div>
+              <div class="col-6"><label class="form-label">State *</label><input class="form-control" formControlName="state"></div>
+              <div class="col-6"><label class="form-label">Postcode *</label><input class="form-control" formControlName="postcode"></div>
+              <div class="col-6"><label class="form-label">Country *</label><input class="form-control" formControlName="country"></div>
+              <div class="col-12"><label class="form-label">Phone *</label><input class="form-control" formControlName="phone"></div>
+            </div>
+          </form>
+          <button class="btn btn-primary mt-3 w-100" (click)="nextStep()">Continue to Payment →</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Payment -->
+      <div *ngIf="step === 2" class="card shadow-sm">
+        <div class="card-header fw-bold">Payment Method</div>
+        <div class="card-body">
+          <div *ngFor="let method of ['CREDIT_CARD','DEBIT_CARD','NET_BANKING','UPI','CASH_ON_DELIVERY']" class="form-check mb-3">
+            <input class="form-check-input" type="radio" [value]="method" [(ngModel)]="paymentMethod" [id]="method">
+            <label class="form-check-label" [for]="method">{{ method.replace('_', ' ') }}</label>
+          </div>
+          <div class="alert alert-info small mt-3">
+            <strong>Note:</strong> This is a demo app. No real payment will be processed.
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary" (click)="step = 1">← Back</button>
+            <button class="btn btn-primary flex-grow-1" (click)="step = 3">Review Order →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Confirm -->
+      <div *ngIf="step === 3" class="card shadow-sm">
+        <div class="card-header fw-bold">Review & Place Order</div>
+        <div class="card-body">
+          <h6 class="fw-bold">Delivery to:</h6>
+          <p class="text-muted">{{ addressForm.value.firstName }} {{ addressForm.value.lastName }}, {{ addressForm.value.line1 }}, {{ addressForm.value.city }}, {{ addressForm.value.state }} {{ addressForm.value.postcode }}</p>
+          <h6 class="fw-bold">Payment:</h6>
+          <p class="text-muted">{{ paymentMethod.replace('_', ' ') }}</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary" (click)="step = 2">← Back</button>
+            <button class="btn btn-warning flex-grow-1 fw-bold" (click)="placeOrder()" [disabled]="placing">
+              <span *ngIf="placing" class="spinner-border spinner-border-sm me-2"></span>
+              Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-header fw-bold">Order Summary</div>
+        <div class="card-body" *ngIf="cart">
+          <div *ngFor="let e of cart.entries" class="d-flex justify-content-between mb-2 small">
+            <span>{{ e.productName }} × {{ e.quantity }}</span>
+            <span>{{ e.lineTotal | currency:'USD' }}</span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between fw-bold"><span>Total</span><span>{{ cart.totalPrice | currency:'USD' }}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.step-badge { padding: 6px 16px; border-radius: 20px; background: #e9ecef; font-weight: 600; font-size: 0.85rem; color: #666; }
+.step-badge.active { background: #0d6efd; color: white; }
+.step-line { flex: 1; height: 2px; background: #dee2e6; margin: 0 8px; }
+</style>

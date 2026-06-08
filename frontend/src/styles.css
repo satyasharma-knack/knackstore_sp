@@ -1,0 +1,4 @@
+/* Global Styles — KnackStore */
+body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f8f9fa; }
+a { color: inherit; }
+.cursor-pointer { cursor: pointer; }

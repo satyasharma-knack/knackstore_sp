@@ -1,0 +1,69 @@
+<div class="container py-4">
+  <div *ngIf="loading" class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+
+  <div *ngIf="!loading && product" class="row g-5">
+    <!-- Image -->
+    <div class="col-md-5">
+      <img [src]="product.imageUrl" [alt]="product.name" class="img-fluid rounded shadow">
+    </div>
+
+    <!-- Details -->
+    <div class="col-md-7">
+      <nav aria-label="breadcrumb" class="mb-2">
+        <ol class="breadcrumb small">
+          <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+          <li class="breadcrumb-item active">{{ product.name }}</li>
+        </ol>
+      </nav>
+
+      <small class="text-muted fw-semibold text-uppercase">{{ product.brand }}</small>
+      <h2 class="fw-bold mt-1">{{ product.name }}</h2>
+      <app-star-rating [rating]="product.averageRating" [count]="product.reviewCount"></app-star-rating>
+
+      <h3 class="text-primary fw-bold mt-3">{{ displayPrice | currency:'USD' }}</h3>
+
+      <!-- Variants -->
+      <div *ngIf="product.variants?.length" class="mb-3">
+        <label class="fw-semibold mb-2 d-block">Select Variant:</label>
+        <div class="d-flex flex-wrap gap-2">
+          <button *ngFor="let v of product.variants"
+                  class="btn btn-sm"
+                  [class.btn-primary]="selectedVariant?.id === v.id"
+                  [class.btn-outline-secondary]="selectedVariant?.id !== v.id"
+                  (click)="selectedVariant = v">
+            {{ v.color }}<span *ngIf="v.storage"> / {{ v.storage }}</span>
+            <small class="d-block">{{ v.price | currency:'USD' }}</small>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stock Status -->
+      <div class="mb-3">
+        <span *ngIf="inStock" class="badge bg-success">In Stock</span>
+        <span *ngIf="!inStock" class="badge bg-danger">Out of Stock</span>
+      </div>
+
+      <!-- Quantity + Add to Cart -->
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="input-group" style="width: 120px">
+          <button class="btn btn-outline-secondary" (click)="quantity = quantity > 1 ? quantity - 1 : quantity">−</button>
+          <input type="number" class="form-control text-center" [(ngModel)]="quantity" min="1" max="10">
+          <button class="btn btn-outline-secondary" (click)="quantity = quantity < 10 ? quantity + 1 : quantity">+</button>
+        </div>
+        <button class="btn btn-warning btn-lg flex-grow-1" [disabled]="!inStock || addingToCart" (click)="addToCart()">
+          <span *ngIf="addingToCart" class="spinner-border spinner-border-sm me-2"></span>
+          🛒 Add to Cart
+        </button>
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success py-2">{{ successMessage }}</div>
+
+      <!-- Description -->
+      <div class="mt-4">
+        <h5 class="fw-bold">Description</h5>
+        <p class="text-muted">{{ product.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="container py-4" style="max-width:700px">
+  <h2 class="fw-bold mb-4">My Profile</h2>
+  <div *ngIf="loading" class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+  <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="save()">
+    <div class="card shadow-sm mb-3">
+      <div class="card-header fw-bold">Personal Details</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-6"><label class="form-label">First Name *</label><input class="form-control" formControlName="firstName"></div>
+          <div class="col-6"><label class="form-label">Last Name *</label><input class="form-control" formControlName="lastName"></div>
+          <div class="col-12"><label class="form-label">Phone</label><input class="form-control" formControlName="phone"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow-sm mb-3" formGroupName="defaultAddress">
+      <div class="card-header fw-bold">Default Address</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-12"><label class="form-label">Address Line 1</label><input class="form-control" formControlName="line1"></div>
+          <div class="col-12"><label class="form-label">Address Line 2</label><input class="form-control" formControlName="line2"></div>
+          <div class="col-6"><label class="form-label">City</label><input class="form-control" formControlName="city"></div>
+          <div class="col-6"><label class="form-label">State</label><input class="form-control" formControlName="state"></div>
+          <div class="col-6"><label class="form-label">Postcode</label><input class="form-control" formControlName="postcode"></div>
+          <div class="col-6"><label class="form-label">Country</label><input class="form-control" formControlName="country"></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="success" class="alert alert-success py-2">{{ success }}</div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" [disabled]="saving">
+        <span *ngIf="saving" class="spinner-border spinner-border-sm me-2"></span>Save Changes
+      </button>
+      <a routerLink="/account/orders" class="btn btn-outline-secondary">My Orders</a>
+    </div>
+  </form>
+</div>

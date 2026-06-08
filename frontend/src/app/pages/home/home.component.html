@@ -1,0 +1,63 @@
+<!-- Hero Banner -->
+<section class="hero-section bg-dark text-white">
+  <div class="container py-5">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h1 class="display-4 fw-bold">The Best in <span class="text-warning">Electronics</span></h1>
+        <p class="lead text-muted">Shop the latest smartphones, laptops, cameras, and more.</p>
+        <a routerLink="/products" class="btn btn-warning btn-lg me-3">Shop Now</a>
+        <a routerLink="/products" [queryParams]="{category: 'phones'}" class="btn btn-outline-light btn-lg">View Phones</a>
+      </div>
+      <div class="col-md-6 text-center">
+        <span style="font-size: 120px">⚡</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="fw-bold mb-4">Shop by Category</h2>
+    <div class="row g-3">
+      <div *ngFor="let cat of categories" class="col-6 col-md-4 col-lg-2">
+        <a [routerLink]="['/products']" [queryParams]="{category: cat.code}" class="text-decoration-none">
+          <div class="category-card text-center p-3 border rounded shadow-sm h-100">
+            <img [src]="cat.imageUrl" [alt]="cat.name" class="category-img rounded mb-2">
+            <p class="mb-0 fw-semibold text-dark small">{{ cat.name }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-bold mb-0">Featured Products</h2>
+      <a routerLink="/products" class="btn btn-outline-primary">View All →</a>
+    </div>
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+    <div class="row g-4">
+      <div *ngFor="let product of featuredProducts" class="col-sm-6 col-md-4 col-lg-3">
+        <app-product-card [product]="product"></app-product-card>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USP Strip -->
+<section class="py-4 bg-dark text-white">
+  <div class="container">
+    <div class="row text-center g-3">
+      <div class="col-6 col-md-3"><div class="p-3">🚚<br><strong>Free Shipping</strong><br><small class="text-muted">On orders over $99</small></div></div>
+      <div class="col-6 col-md-3"><div class="p-3">🔒<br><strong>Secure Payment</strong><br><small class="text-muted">100% protected</small></div></div>
+      <div class="col-6 col-md-3"><div class="p-3">🔄<br><strong>Easy Returns</strong><br><small class="text-muted">30-day hassle free</small></div></div>
+      <div class="col-6 col-md-3"><div class="p-3">💬<br><strong>24/7 Support</strong><br><small class="text-muted">Always here to help</small></div></div>
+    </div>
+  </div>
+</section>

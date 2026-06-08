@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" routerLink="/">
+      <span class="text-warning">⚡</span> KnackStore
+    </a>
+
+    <div class="d-flex align-items-center gap-2 flex-grow-1 mx-3">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search products..."
+               [(ngModel)]="searchQuery" (keyup.enter)="onSearch()">
+        <button class="btn btn-warning" (click)="onSearch()">🔍</button>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center gap-3">
+      <a routerLink="/cart" class="btn btn-outline-light position-relative">
+        🛒
+        <span *ngIf="cartCount > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
+          {{ cartCount }}
+        </span>
+      </a>
+
+      <div *ngIf="!isLoggedIn" class="d-flex gap-2">
+        <a routerLink="/login" class="btn btn-outline-light btn-sm">Login</a>
+        <a routerLink="/register" class="btn btn-warning btn-sm">Register</a>
+      </div>
+
+      <div *ngIf="isLoggedIn" class="dropdown">
+        <button class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">
+          👤 {{ userName }}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" routerLink="/account/profile">My Profile</a></li>
+          <li><a class="dropdown-item" routerLink="/account/orders">My Orders</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item text-danger" (click)="logout()">Logout</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
